@@ -5,7 +5,7 @@ import re
 #import show
 import dir
 #import create
-#import funciones
+import find
 
 
 print "Welcome to py-note!\n"
@@ -22,7 +22,7 @@ while 1 :
     elif None != re.match("delete", input):
         print "deleeeeeet"
     elif None != re.match("find", input):
-        print "fiiiiiind"
+        find.op_find(input)
     elif input == "exit":
         break
     else:
