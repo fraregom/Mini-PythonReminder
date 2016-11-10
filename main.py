@@ -1,15 +1,20 @@
+# coding=utf-8
 import re
+#import delete
+#import edit
+#import show
+import dir
+#import create
 #import funciones
-import delete, edit, show, dir, create, funciones
 
 
-print "Welcome to py-note\n"
+print "Welcome to py-note!\n"
 while 1 :
-    input = raw_input()
+    input = raw_input("Comando: ")
     if None !=re.match("create",input) :
         print "creaaate"
     elif None != re.match("dir", input):
-        print "diiiiiir"
+        dir.op_dir(input)
     elif None != re.match("show", input):
         print "shoooooow"
     elif None != re.match("edit", input):
