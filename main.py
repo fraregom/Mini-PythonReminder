@@ -9,7 +9,7 @@ import find
 
 
 print "Welcome to py-note!\n"
-while True :
+while True:
     input = raw_input("Comando: ")
     if re.match("create",input) :
         print "creaaate"
