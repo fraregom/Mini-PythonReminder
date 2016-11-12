@@ -10,7 +10,7 @@ import find
 
 print "Welcome to py-note!\n"
 while True:
-    input = raw_input("Comando: ")
+    input = raw_input("Command: ")
     if re.match("create",input) :
         print "creaaate"
     elif re.match("dir", input):
