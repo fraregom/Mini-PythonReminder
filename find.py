@@ -11,7 +11,6 @@ def multiple_replace(dict, text):
 def op_find(orden):
     text_temp = ""
     ready = False
-    nothing = True
     if re.search("some", orden):
         re_result = dict()
         for word in re.findall(r'"(\w+)"', orden):
