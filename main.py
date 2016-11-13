@@ -1,28 +1,25 @@
 # coding=utf-8
-import re,os
-#import delete
-#import edit
+import re
+import delete
+import edit
 #import show
 import dir
-import create
+#import create
 import find
 
-PATH = os.getcwd()
-archivo = open("metadata","w")
-archivo.close()
 print "Welcome to py-note!\n"
 while True:
     input = raw_input("Command: ")
     if re.match("create",input) :
-        create.create(input,PATH)
+        print "creaaate"
     elif re.match("dir", input):
         dir.op_dir(input)
     elif re.match("show", input):
         print "shoooooow"
     elif re.match("edit", input):
-        print "ediiiiiit"
+        edit.op_edit(input)
     elif re.match("delete", input):
-        print "deleeeeeet"
+        delete.op_delete(input)
     elif re.match("find", input):
         find.op_find(input)
     elif input == "exit":
