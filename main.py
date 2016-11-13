@@ -9,6 +9,8 @@ import find
 
 print "Welcome to py-note!\n"
 PATH = os.getcwd()
+arc = open("metadata", "w")
+arc.close()
 while True:
     input = raw_input("Command: ")
     if re.match("create",input) :
