@@ -1,12 +1,11 @@
 # coding=utf-8
 import re
 #import delete
-#import edit
+import edit
 #import show
 import dir
 #import create
 import find
-
 
 print "Welcome to py-note!\n"
 while True:
@@ -18,7 +17,7 @@ while True:
     elif re.match("show", input):
         print "shoooooow"
     elif re.match("edit", input):
-        print "ediiiiiit"
+        edit.op_edit(input)
     elif re.match("delete", input):
         print "deleeeeeet"
     elif re.match("find", input):
