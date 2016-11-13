@@ -41,7 +41,8 @@ def create(input,PATH):
             meta = ls.split('"')[i]+'|'+path+'|'+date+'|'+date+'|'+tags+'\n'
             metadata.write(meta)
         metadata.close()
-        if edit:
+        #if edit:
+
 
 
 

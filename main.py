@@ -1,17 +1,18 @@
 # coding=utf-8
-import re
+import re,os
 import delete
 import edit
 #import show
 import dir
-#import create
+import create
 import find
 
 print "Welcome to py-note!\n"
+PATH = os.getcwd()
 while True:
     input = raw_input("Command: ")
     if re.match("create",input) :
-        print "creaaate"
+        create.create(input, PATH)
     elif re.match("dir", input):
         dir.op_dir(input)
     elif re.match("show", input):
