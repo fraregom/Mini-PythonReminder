@@ -1,6 +1,6 @@
 # coding=utf-8
 import re
-#import delete
+import delete
 import edit
 #import show
 import dir
@@ -19,7 +19,7 @@ while True:
     elif re.match("edit", input):
         edit.op_edit(input)
     elif re.match("delete", input):
-        print "deleeeeeet"
+        delete.op_delete(input)
     elif re.match("find", input):
         find.op_find(input)
     elif input == "exit":
