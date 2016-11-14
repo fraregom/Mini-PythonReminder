@@ -7,7 +7,14 @@ import dir
 import edit
 import find
 
-print "Welcome to py-note!\n"
+
+print """\
+ _      __    __                     __         ___           _  __     __      __
+| | /| / /__ / /______  __ _  ___   / /____    / _ \__ ______/ |/ /__  / /____ / /
+| |/ |/ / -_) / __/ _ \/  ' \/ -_) / __/ _ \  / ___/ // /___/    / _ \/ __/ -_)_/
+|__/|__/\__/_/\__/\___/_/_/_/\__/  \__/\___/ /_/   \_, /   /_/|_/\___/\__/\__(_)
+                                                  /___/
+"""
 PATH = os.getcwd()
 if not os.path.isfile("metadata"):
     arc = open("metadata", "w")
