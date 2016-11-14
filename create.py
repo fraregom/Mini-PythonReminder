@@ -7,7 +7,7 @@ import time
 
 def create(order, path_origin):
     pattern = re.compile(r'^ *create +(?:(?:(?P<edit>".+?") *edit *)|(?P<files>(?:".+?" *)+))'
-                         r'(?:with +tags +(?P<tags>".*" *))?(?:in +/(?P<path>(?:.+)+))?$')
+                         r'(?:with +tags +(?P<tags>".*" *))?(?:in +/(?P<path>(?:.+)+)/?)?$')
     match = pattern.match(order)
     if match:
         files = 'files'
@@ -15,8 +15,8 @@ def create(order, path_origin):
         if match.group('edit'):
             files = 'edit'
         if match.group('path'):
-            if re.match(r"/home/.+", match.group('path')):
-                path = match.group('path')
+            if re.match(r'home/.+', match.group('path')):
+                path = '/' + match.group('path')
             else:
                 path = os.getcwd()+'/'+match.group('path')
             if not os.path.exists(path):
@@ -30,11 +30,14 @@ def create(order, path_origin):
             archivo.close()
             date = time.strftime("%d/%m/%Y-%H:%M:%S")
             tags = ""
-            path = os.getcwd()
             if match.group('tags'):
                 tags = match.group('tags')
             if match.group('path'):
-                path = match.group('path')
+                new_path = match.group('path')
+                if re.match(r'home/.+', new_path):
+                    path = '/' + new_path
+                else:
+                    path = os.getcwd() + '/' + match.group('path')
             meta = ls.split('"')[i]+'|'+path+'|'+date+'|'+date+'|'+tags+'\n'
             metadata.write(meta)
         metadata.close()

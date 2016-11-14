@@ -7,7 +7,7 @@ def bd_cleaner(trash, path):
     metadata_old = open(path + '/metadata')
     metadata_new = open(path + '/metadata_tmp', 'w')
     trash_new = []
-    if not trash_new:
+    if not trash:
         print "No file was deleted"
         return
 
@@ -16,6 +16,7 @@ def bd_cleaner(trash, path):
             trash_new.append(name.split('.txt')[0])
         else:
             trash_new.append(name)
+
     for line in metadata_old:
         if not line.strip().split('|')[0] in trash_new:
             metadata_new.write(line)
@@ -37,9 +38,10 @@ def op_delete(order, path):
 
     trash = []
     in_route = False
-    new_route = regex.match(order).group('route')
+    new_route = ''
     if regex.match(order):
         if regex.match(order).group('route'):
+            new_route = regex.match(order).group('route')
             in_route = True
             if re.match(r'home/.+', new_route):
                 new_route = '/' + new_route + '/'
@@ -102,10 +104,10 @@ def op_delete(order, path):
                 if for_delete:
                     for f in for_delete:
                         if route_exists:
-                            os.remove(new_route + f)
+                            os.remove(new_route + f + '.txt')
                             trash.append(f)
                         else:
-                            os.remove(f)
+                            os.remove(f + '.txt')
                             trash.append(f)
             else:
                 if in_route:
