@@ -1,6 +1,5 @@
 # coding=utf-8
-import os
-import re
+import os, re
 
 def multiple_replace(dict, text):
   regex = re.compile("(%s)" % "|".join(map(re.escape, dict.keys())))
@@ -24,14 +23,15 @@ def op_find(orden):
                         ready = True
                     else:
                         text_temp += line
-                tmp.close()
                 if ready == True:
+                    print "Found in " + file + ":\n"
                     print text_temp
                     text_temp = ""
                     ready = False
                     print "------------------------------"
                 else:
                     text_temp = ""
+                tmp.close()
 
     elif re.search("exact", orden):
         text_temp = ""
@@ -46,14 +46,16 @@ def op_find(orden):
                         ready = True
                     else:
                         text_temp += line
-                tmp.close()
+
                 if ready == True:
+                    print "Found in " + file + ":\n"
                     print text_temp
                     text_temp = ""
                     ready = False
                     print "------------------------------"
                 else:
                     text_temp = ""
+                tmp.close()
     else:
-        print "Error: Comando desconocido."
+        print "Error: Incorrect Command"
     return

@@ -1,13 +1,24 @@
-import re
-import os
+import re, os
 
+def BD_cleaner(trash,PATH):
+    metadata_old = open(PATH+'/metadata')
+    metadata_new = open(PATH+'/metadata_tmp','w')
+    for line in metadata_old:
+        for line_trash in trash:
+            if line_trash != line.strip().split('|')[0]:
+                metadata_new.write(line)
+    metadata_new.close()
+    metadata_old.close()
+    os.remove(PATH+'/metadata')
+    raw_input()
+    os.renames(PATH+'/metadata_tmp',PATH+'/metadata')
 
 def op_delete(orden,PATH):
     regex = re.compile(r'^ *delete +(:?"(?P<name_file>.*)"|'
                        r'(?P<all_activo>all+(:? +where +(:?(:?name +is +"(?P<is_file>.+)"|'
                        r'name +contains +"(?P<contains_file>.+)")|'
                        r'tag +is +"(?P<tag_name>.+)"))?))(:? +in +/(?P<route>(.*))/*)?$')
-
+    trash = []
     in_route = False
     new_route = ''
     if regex.match(orden):
@@ -26,11 +37,13 @@ def op_delete(orden,PATH):
                     for f in filelist:
                         print "Successfully deleted: " + f
                         os.remove(new_route + f)
+                        trash.append(f)
                 else:
                     filelist = [f for f in os.listdir(".") if f.startswith(name) and f.endswith('.txt')]
                     for f in filelist:
                         print "Successfully deleted: " + f
                         os.remove(f)
+                        trash.append(f)
 
             elif regex.match(orden).group('contains_file'):
                 name = regex.match(orden).group('contains_file')
@@ -54,8 +67,10 @@ def op_delete(orden,PATH):
                     for f in for_delete:
                         if route_exists:
                             os.remove(new_route + f)
+                            trash.append(f)
                         else:
                             os.remove(f)
+                            trash.append(f)
                         print "Successfully deleted: " + f
                 else:
                     print "No file was deleted"
@@ -77,8 +92,10 @@ def op_delete(orden,PATH):
                     for f in for_delete:
                         if route_exists:
                             os.remove(new_route + f)
+                            trash.append(f)
                         else:
                             os.remove(f)
+                            trash.append(f)
                         print "Successfully deleted: " + f
                 else:
                     print "No file was deleted"
@@ -89,20 +106,25 @@ def op_delete(orden,PATH):
                     for f in filelist:
                         print "Successfully deleted: " + f
                         os.remove(new_route + f)
+                        trash.append(f)
                 else:
                     filelist = [f for f in os.listdir(".") if f.endswith(".txt")]
                     for f in filelist:
                         print "Successfully deleted: " + f
                         os.remove(f)
+                        trash.append(f)
 
         elif regex.match(orden).group('name_file'):
             print "Successfully deleted: " + regex.match(orden).group('name_file') + '.txt'
             if in_route:
                 os.remove(new_route + regex.match(orden).group('name_file') + '.txt')
+                trash.append(regex.match(orden).group('name_file'))
             else:
                 os.remove(regex.match(orden).group('name_file') + '.txt')
-
+                trash.append(regex.match(orden).group('name_file'))
     else:
         print "Error: Incorrect command"
+
+    BD_cleaner(trash,PATH)
 
     return
