@@ -1,13 +1,7 @@
 # coding=utf-8
 import os
 import re
-
-
-def multiple_replace(dictionary, text):
-    regex = re.compile("(%s)" % "|".join(map(re.escape, dictionary.keys())))
-    if regex.search(text):
-        return regex.sub(lambda mo: dictionary[mo.string[mo.start():mo.end()]], text)
-    return
+import auxiliar
 
 
 def op_find(order):

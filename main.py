@@ -6,6 +6,7 @@ import delete
 import dir
 import edit
 import find
+import show
 
 print """\
  _      __    __                     __         ___           _  __     __      __
@@ -25,7 +26,7 @@ while True:
     elif re.match(" *dir", command):
         dir.op_dir(command)
     elif re.match(" *show", command):
-        print "shoooooow"
+        show.show(command,PATH)
     elif re.match(" *edit", command):
         edit.op_edit(command)
     elif re.match(" *delete", command):
