@@ -9,15 +9,15 @@ def op_find(order):
     if re.search("some", order):
         text_temp = ""
         ready = False
-        re_result = dict()
+        re_result = auxiliar.styles
         for word in re.findall(r'"(\w+)"', order):
             re_result[word] = '\033[42m' + word + '\033[0m'
         for name_file in os.listdir(os.getcwd()):
             if name_file.endswith(".txt"):
                 tmp = open(name_file)
                 for line in tmp:
-                    if multiple_replace(re_result, line):
-                        text_temp += multiple_replace(re_result, line)
+                    if auxiliar.multiple_replace(re_result, line):
+                        text_temp += auxiliar.multiple_replace(re_result, line)
                         ready = True
                     else:
                         text_temp += line
@@ -48,7 +48,7 @@ def op_find(order):
                 if ready:
                     anything_find = True
                     print "Found in " + name_file + ":\n"
-                    print text_temp
+                    print auxiliar.multiple_replace(auxiliar.styles, text_temp)
                     text_temp = ""
                     ready = False
                     print "------------------------------"
