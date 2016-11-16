@@ -134,3 +134,6 @@ def op_delete(order, path):
     bd_cleaner(trash, path)
 
     return
+
+#falta verificar si existe el archivo, cuando se desea borrar uno y
+#arrogar el mensaje de error en caso que no exista

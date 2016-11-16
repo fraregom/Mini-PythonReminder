@@ -13,3 +13,6 @@ def op_edit(order):
                 path = '/' + path
         subprocess.call(['nano', path + '.txt'])
     return
+
+#faltaria analizar si el archivo que se va a editar existe o no para 
+#arrogar el mensaje de error
