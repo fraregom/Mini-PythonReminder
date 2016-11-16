@@ -1,6 +1,7 @@
 # coding=utf-8
 import re
 import os
+import time
 
 
 styles = {"<rojo>":"\033[31m",
@@ -38,20 +39,19 @@ def bd_edit(trash, path,type):
         else:
             trash_new.append(name)
 
-    if type == "clear":
-        clear(metadata_old, metadata_new, trash_new)
+    for line in metadata_old:
+        info = line.strip().split('|')
+        if not info[0] in trash_new:
+            metadata_new.write(line)
+        elif type == "clear":
+            print "Successfully deleted: " + info[0] + '.lpy'
+        elif type == "edit":
+            date = time.strftime("%d/%m/%Y-%H:%M:%S")
+            metadata_new.write("|".join([info[0], info[1], info[2], date, info[4]]))
+
     metadata_new.close()
     metadata_old.close()
     os.remove(path + '/.metadata')
     os.renames(path + '/.metadata_tmp', path + '/.metadata')
     return
-
-
-def clear(metadata_old, metadata_new, trash_new):
-    for line in metadata_old:
-        print "line in metadataOld: " +line
-        if not line.strip().split('|')[0] in trash_new:
-            metadata_new.write(line)
-        else:
-            print "Successfully deleted: " + line.strip().split('|')[0] + '.lpy'
 

@@ -28,7 +28,7 @@ while True:
     elif re.match(" *show", command):
         show.show(command,PATH)
     elif re.match(" *edit", command):
-        edit.op_edit(command)
+        edit.op_edit(command,PATH)
     elif re.match(" *delete", command):
         delete.op_delete(command, PATH)
     elif re.match(" *find", command):
