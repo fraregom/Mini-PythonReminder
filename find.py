@@ -13,7 +13,7 @@ def op_find(order):
         for word in re.findall(r'"(\w+)"', order):
             re_result[word] = '\033[42m' + word + '\033[49m'
         for name_file in os.listdir(os.getcwd()):
-            if name_file.endswith(".txt"):
+            if name_file.endswith(".lpy"):
                 tmp = open(name_file)
                 for line in tmp:
                     if auxiliar.multiple_replace(re_result, line):
@@ -36,7 +36,7 @@ def op_find(order):
         text_temp = ""
         ready = False
         for name_file in os.listdir(os.getcwd()):
-            if name_file.endswith(".txt"):
+            if name_file.endswith(".lpy"):
                 tmp = open(name_file)
                 for line in tmp:
                     find = re.search(r'"(.*?)"', order).group(1)

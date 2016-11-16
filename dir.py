@@ -3,7 +3,7 @@ import os
 import re
 
 
-def op_dir(order):
+def op_dir(order,path):
     regex = re.compile(r' *dir +(?:here|/(?P<route>.+)/?)')
     if regex.match(order):
         try:
@@ -16,7 +16,8 @@ def op_dir(order):
                 os.chdir(path)
                 print "New PATH: " + os.getcwd()
             else:
-                print "PATH: " + os.getcwd()
+                os.chdir(path)
+                print "Original PATH: "+ path
         except OSError:
             print "Error: PATH does not exist"
     else:

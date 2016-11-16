@@ -3,3 +3,6 @@
   * **Integrantes:** Diego Zamora G.( dzamora 201473076-4) - Francisco Reyes G. (freyes 201473117-5)
   * **Edit:** -Se recomienda cerrar un color antes de comensazar otro para evitar ambigüedades.
   * **Otros:**
+
+exigencia con el largo de codigo (delete)???
+cuando usemaos <edit> , actualizar la fecha de modificacion

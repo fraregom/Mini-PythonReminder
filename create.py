@@ -6,7 +6,7 @@ import time
 
 
 def create(order, path_origin):
-    pattern = re.compile(r'^ *create +(?:(?:(?P<edit>".+?") *edit *)|(?P<files>(?:".+?" *)+))'
+    pattern = re.compile(r'^ *create *(?:(?:(?P<edit>".+?") *edit *)|(?P<files>(?:".+?" *)+))'
                          r'(?:with +tags +(?P<tags>".*" *))?(?:in +/(?P<path>(?:.+)+)/?)?$')
     match = pattern.match(order)
     if match:
@@ -24,9 +24,9 @@ def create(order, path_origin):
                 return
         ls = match.group(files)
 
-        metadata = open(path_origin+"/metadata", "a")
+        metadata = open(path_origin+"/.metadata", "a")
         for i in range(1, len(match.group(files).split('"')), 2):
-            archivo = open(path+"/"+ls.split('"')[i]+".txt", "w")
+            archivo = open(path+"/"+ls.split('"')[i]+".lpy", "w")
             archivo.close()
             date = time.strftime("%d/%m/%Y-%H:%M:%S")
             tags = ""
@@ -41,7 +41,8 @@ def create(order, path_origin):
             meta = ls.split('"')[i]+'|'+path+'|'+date+'|'+date+'|'+tags+'\n'
             metadata.write(meta)
         metadata.close()
+        print "Successfully create: " + ls
         if files == "edit":
-            subprocess.call(['nano', path + "/" + match.group(files).strip('"') + '.txt'])
+            subprocess.call(['nano', path + "/" + match.group(files).strip('"') + '.lpy'])
     else:
         print "Error: Incorrect Command"

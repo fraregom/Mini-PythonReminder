@@ -1,33 +1,7 @@
 # coding=utf-8
 import os
 import re
-
-
-def bd_cleaner(trash, path):
-    metadata_old = open(path + '/metadata')
-    metadata_new = open(path + '/metadata_tmp', 'w')
-    trash_new = []
-    if not trash:
-        print "No file was deleted"
-        return
-
-    for name in trash:
-        if name.endswith('.txt'):
-            trash_new.append(name.split('.txt')[0])
-        else:
-            trash_new.append(name)
-
-    for line in metadata_old:
-        if not line.strip().split('|')[0] in trash_new:
-            metadata_new.write(line)
-        else:
-            print "Successfully deleted: " + line.strip().split('|')[0] + '.txt'
-
-    metadata_new.close()
-    metadata_old.close()
-    os.remove(path + '/metadata')
-    os.renames(path + '/metadata_tmp', path + '/metadata')
-    return
+import auxiliar
 
 
 def op_delete(order, path):
@@ -52,9 +26,9 @@ def op_delete(order, path):
             if regex.match(order).group('is_file'):
                 name = regex.match(order).group('is_file')
                 if in_route:
-                    filelist = [f for f in os.listdir(new_route) if f.startswith(name) and f.endswith('.txt')]
+                    filelist = [f for f in os.listdir(new_route) if f.startswith(name) and f.endswith('.lpy')]
                 else:
-                    filelist = [f for f in os.listdir(".") if f.startswith(name) and f.endswith('.txt')]
+                    filelist = [f for f in os.listdir(".") if f.startswith(name) and f.endswith('.lpy')]
                 for f in filelist:
                     if in_route:
                         os.remove(new_route + f)
@@ -67,10 +41,10 @@ def op_delete(order, path):
                 route_exists = False
                 for_delete = []
                 if in_route:
-                    filelist = [f for f in os.listdir(new_route) if f.endswith('.txt')]
+                    filelist = [f for f in os.listdir(new_route) if f.endswith('.lpy')]
                     route_exists = True
                 else:
-                    filelist = [f for f in os.listdir(".") if f.endswith('.txt')]
+                    filelist = [f for f in os.listdir(".") if f.endswith('.lpy')]
                 for f in filelist:
                     if route_exists:
                         file_open = open(new_route + f)
@@ -91,7 +65,7 @@ def op_delete(order, path):
             elif regex.match(order).group('tag_name'):
                 route_exists = False
                 for_delete = []
-                metadata = open(path + '/metadata')
+                metadata = open(path + '/.metadata')
                 tag = regex.match(order).group('tag_name')
 
                 if new_route:
@@ -104,16 +78,16 @@ def op_delete(order, path):
                 if for_delete:
                     for f in for_delete:
                         if route_exists:
-                            os.remove(new_route + f + '.txt')
+                            os.remove(new_route + f + '.lpy')
                             trash.append(f)
                         else:
-                            os.remove(f + '.txt')
+                            os.remove(f + '.lpy')
                             trash.append(f)
             else:
                 if in_route:
-                    filelist = [f for f in os.listdir(new_route) if f.endswith(".txt")]
+                    filelist = [f for f in os.listdir(new_route) if f.endswith(".lpy")]
                 else:
-                    filelist = [f for f in os.listdir(".") if f.endswith(".txt")]
+                    filelist = [f for f in os.listdir(".") if f.endswith(".lpy")]
                 for f in filelist:
                     if in_route:
                         os.remove(new_route + f)
@@ -123,15 +97,15 @@ def op_delete(order, path):
 
         elif regex.match(order).group('name_file'):
             if in_route:
-                os.remove(new_route + regex.match(order).group('name_file') + '.txt')
+                os.remove(new_route + regex.match(order).group('name_file') + '.lpy')
                 trash.append(regex.match(order).group('name_file'))
             else:
-                os.remove(regex.match(order).group('name_file') + '.txt')
+                os.remove(regex.match(order).group('name_file') + '.lpy')
                 trash.append(regex.match(order).group('name_file'))
     else:
         print "Error: Incorrect command"
 
-    bd_cleaner(trash, path)
+    auxiliar.bd_edit(trash, path,"clear")
 
     return
 

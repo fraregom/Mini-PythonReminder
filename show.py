@@ -39,9 +39,9 @@ def show(order,path_origin):
                 route = os.getcwd()+"/"+route+"/"
         if name:
             if route:
-                archivo = open(route + name + ".txt")
+                archivo = open(route + name + ".lpy")
             else:
-                archivo = open(name + ".txt")
+                archivo = open(name + ".lpy")
 
             print auxiliar.multiple_replace(auxiliar.styles,archivo.read())
             archivo.close()

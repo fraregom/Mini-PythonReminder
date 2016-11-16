@@ -16,15 +16,15 @@ print """\
                                                   /___/
 """
 PATH = os.getcwd()
-if not os.path.isfile("metadata"):
-    arc = open("metadata", "w")
+if not os.path.isfile(".metadata"):
+    arc = open(".metadata", "w")
     arc.close()
 while True:
     command = raw_input("Command: ")
     if re.match(" *create", command):
         create.create(command, PATH)
     elif re.match(" *dir", command):
-        dir.op_dir(command)
+        dir.op_dir(command,PATH)
     elif re.match(" *show", command):
         show.show(command,PATH)
     elif re.match(" *edit", command):
