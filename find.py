@@ -11,7 +11,7 @@ def op_find(order):
         ready = False
         re_result = auxiliar.styles
         for word in re.findall(r'"(\w+)"', order):
-            re_result[word] = '\033[42m' + word + '\033[0m'
+            re_result[word] = '\033[42m' + word + '\033[49m'
         for name_file in os.listdir(os.getcwd()):
             if name_file.endswith(".txt"):
                 tmp = open(name_file)

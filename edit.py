@@ -16,3 +16,5 @@ def op_edit(order):
 
 #faltaria analizar si el archivo que se va a editar existe o no para 
 #arrogar el mensaje de error
+
+#editar el re, para que no acepte .txt
