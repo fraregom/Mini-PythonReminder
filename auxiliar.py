@@ -33,7 +33,6 @@ def bd_edit(trash, path,type):
         return
 
     for name in trash:
-        print "name in trash: "+ name
         if name.endswith('.lpy'):
             trash_new.append(name.split('.lpy')[0])
         else:
@@ -47,7 +46,7 @@ def bd_edit(trash, path,type):
             print "Successfully deleted: " + info[0] + '.lpy'
         elif type == "edit":
             date = time.strftime("%d/%m/%Y-%H:%M:%S")
-            metadata_new.write("|".join([info[0], info[1], info[2], date, info[4]]))
+            metadata_new.write("|".join([info[0], info[1], info[2], date, info[4]])+"\n")
 
     metadata_new.close()
     metadata_old.close()

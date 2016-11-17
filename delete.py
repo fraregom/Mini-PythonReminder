@@ -8,7 +8,7 @@ def op_delete(order, path):
     regex = re.compile(r'^ *delete +(:?"(?P<name_file>.*)"|'
                        r'(?P<all_activo>all+(:? +where +(:?(:?name +is +"(?P<is_file>.+)"|'
                        r'name +contains +"(?P<contains_file>.+)")|'
-                       r'tag +is +"(?P<tag_name>.+)"))?))(:? +in +/(?P<route>(.*))/*)?$')
+                       r'tag +is +"(?P<tag_name>.+)"))?))(:? +in +/(?P<route>(.*))/*)? *$')
 
     trash = []
     in_route = False
@@ -25,10 +25,11 @@ def op_delete(order, path):
         if regex.match(order).group('all_activo'):
             if regex.match(order).group('is_file'):
                 name = regex.match(order).group('is_file')
+                print name
                 if in_route:
-                    filelist = [f for f in os.listdir(new_route) if f.startswith(name) and f.endswith('.lpy')]
+                    filelist = [f for f in os.listdir(new_route) if os.path.isfile(name+".lpy")]
                 else:
-                    filelist = [f for f in os.listdir(".") if f.startswith(name) and f.endswith('.lpy')]
+                    filelist = [f for f in os.listdir(".") if os.path.isfile(name+".lpy")]
                 for f in filelist:
                     if in_route:
                         os.remove(new_route + f)
@@ -38,29 +39,16 @@ def op_delete(order, path):
 
             elif regex.match(order).group('contains_file'):
                 name = regex.match(order).group('contains_file')
-                route_exists = False
-                for_delete = []
                 if in_route:
-                    filelist = [f for f in os.listdir(new_route) if f.endswith('.lpy')]
-                    route_exists = True
+                    filelist = [f for f in os.listdir(new_route) if name in f and f.endswith('.lpy')]
                 else:
-                    filelist = [f for f in os.listdir(".") if f.endswith('.lpy')]
+                    filelist = [f for f in os.listdir(".") if name in f and f.endswith('.lpy')]
                 for f in filelist:
-                    if route_exists:
-                        file_open = open(new_route + f)
+                    if in_route:
+                        os.remove(new_route + f)
                     else:
-                        file_open = open(f)
-                    if re.search(name, file_open.read(), re.MULTILINE):
-                        for_delete.append(f)
-                    file_open.close()
-
-                if for_delete:
-                    for f in for_delete:
-                        if route_exists:
-                            os.remove(new_route + f)
-                        else:
-                            os.remove(f)
-                        trash.append(f)
+                        os.remove(f)
+                    trash.append(f)
 
             elif regex.match(order).group('tag_name'):
                 route_exists = False
@@ -78,11 +66,14 @@ def op_delete(order, path):
                 if for_delete:
                     for f in for_delete:
                         if route_exists:
-                            os.remove(new_route + f + '.lpy')
-                            trash.append(f)
+                            if os.path.isfile(new_route + f + '.lpy'):
+                                os.remove(new_route + f + '.lpy')
+                                trash.append(f)
                         else:
-                            os.remove(f + '.lpy')
-                            trash.append(f)
+                            if os.path.isfile(f + '.lpy'):
+                                print "enterrrr"
+                                os.remove(f+ '.lpy')
+                                trash.append(f)
             else:
                 if in_route:
                     filelist = [f for f in os.listdir(new_route) if f.endswith(".lpy")]

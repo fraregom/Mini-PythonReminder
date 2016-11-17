@@ -5,4 +5,4 @@
   * **Otros:**
 
 exigencia con el largo de codigo (delete)???
-cuando usemaos <edit> , actualizar la fecha de modificacion
+no usamos sub en find???
