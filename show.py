@@ -40,8 +40,9 @@ def show(order,path_origin):
         else:
             route = os.getcwd()
         if name:
+            print "-----Title:" + name + "-----"
             archivo = open(route +"/"+ name + ".lpy")
-            print auxiliar.multiple_replace(auxiliar.styles,archivo.read())
+            print auxiliar.multiple_replace(auxiliar.styles,archivo.read(),"show")
             archivo.close()
         elif all:
             if iss:
@@ -61,7 +62,17 @@ def show(order,path_origin):
                     print auxiliar.multiple_replace(auxiliar.styles, archivo.read(),"show")
                     archivo.close()
             elif tag:
-                pass #Completar tag is
+                metadata = open(path_origin + '/.metadata')
+                # if new_route:
+                for line in metadata:
+                    aux = line.strip().split("|")
+                    if tag in aux[4]:#agregamos a for_show la ruta+nombre que tienen match
+                        #route+"/"+aux[0]
+                        if route == aux[1]:
+                            print "-----Title:" + aux[0] + ".lpy-----"
+                            archivo = open(route + "/" + aux[0]+ ".lpy")
+                            print auxiliar.multiple_replace(auxiliar.styles, archivo.read(), "show")
+                            archivo.close()
 
             else:# all
                 filelist = [f for f in os.listdir(route) if f.endswith(".lpy")]
