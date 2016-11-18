@@ -60,6 +60,9 @@ def show(order,path_origin):
                     archivo = open(route +"/"+ f )
                     print auxiliar.multiple_replace(auxiliar.styles, archivo.read(),"show")
                     archivo.close()
+            elif tag:
+                pass #Completar tag is
+
             else:# all
                 filelist = [f for f in os.listdir(route) if f.endswith(".lpy")]
                 for f in filelist:
