@@ -18,11 +18,14 @@ styles = {"<rojo>":"\033[31m",
           "</color>":"\033[39m"
         }
 
-def multiple_replace(dictionary, text):
+def multiple_replace(dictionary, text,flag):
     regex = re.compile("(%s)" % "|".join(map(re.escape, dictionary.keys())))
-    if regex.search(text):
+    if flag == "show":
         return regex.sub(lambda mo: dictionary[mo.string[mo.start():mo.end()]], text)
-    return
+    if flag == "find":
+        if regex.search(text):
+            return regex.sub(lambda mo: dictionary[mo.string[mo.start():mo.end()]], text)
+        return
 
 def bd_edit(trash, path,type):
     metadata_old = open(path + '/.metadata')
@@ -54,3 +57,4 @@ def bd_edit(trash, path,type):
     os.renames(path + '/.metadata_tmp', path + '/.metadata')
     return
 
+#def print_machine(name,route,in_route)

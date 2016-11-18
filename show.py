@@ -34,19 +34,40 @@ def show(order,path_origin):
         if route:
             route = str(route)
             if re.match(r'home/.+', route):
-                route = "/"+route+"/"
+                route = "/"+route
             else:
-                route = os.getcwd()+"/"+route+"/"
+                route = os.getcwd()+"/"+route
+        else:
+            route = os.getcwd()
         if name:
-            if route:
-                archivo = open(route + name + ".lpy")
-            else:
-                archivo = open(name + ".lpy")
-
+            archivo = open(route +"/"+ name + ".lpy")
             print auxiliar.multiple_replace(auxiliar.styles,archivo.read())
             archivo.close()
         elif all:
-            print "all"
+            if iss:
+                filelist = [f for f in os.listdir(route) if f.endswith(".lpy")]
+                for f in filelist:
+                    if iss+".lpy" == f:
+                        print "-----Title:" + f +"-----"
+                        archivo = open(route +"/"+ iss + ".lpy")
+                        print auxiliar.multiple_replace(auxiliar.styles, archivo.read(),"show")
+                        archivo.close()
+
+            elif contains:
+                filelist = [f for f in os.listdir(route) if contains in f and f.endswith('.lpy')]
+                for f in filelist:
+                    print "-----Title:" + f + "-----"
+                    archivo = open(route +"/"+ f )
+                    print auxiliar.multiple_replace(auxiliar.styles, archivo.read(),"show")
+                    archivo.close()
+            else:# all
+                filelist = [f for f in os.listdir(route) if f.endswith(".lpy")]
+                for f in filelist:
+                    print "-----Title:" + f + "-----"
+                    archivo = open(route + "/" + f )
+                    print auxiliar.multiple_replace(auxiliar.styles, archivo.read(), "show")
+                    archivo.close()
 
     else:
         print "Error: Incorrect Command"
+

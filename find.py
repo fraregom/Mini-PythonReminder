@@ -16,8 +16,8 @@ def op_find(order):
             if name_file.endswith(".lpy"):
                 tmp = open(name_file)
                 for line in tmp:
-                    if auxiliar.multiple_replace(re_result, line):
-                        text_temp += auxiliar.multiple_replace(re_result, line)
+                    if auxiliar.multiple_replace(re_result, line,"find"):
+                        text_temp += auxiliar.multiple_replace(re_result, line,"find")
                         ready = True
                     else:
                         text_temp += line
@@ -48,7 +48,7 @@ def op_find(order):
                 if ready:
                     anything_find = True
                     print "Found in " + name_file + ":\n"
-                    print auxiliar.multiple_replace(auxiliar.styles, text_temp)
+                    print auxiliar.multiple_replace(auxiliar.styles, text_temp,"find")
                     text_temp = ""
                     ready = False
                     print "------------------------------"

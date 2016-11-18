@@ -6,4 +6,5 @@
 
 exigencia con el largo de codigo (delete)???
 no usamos sub en find???
-#editar el re, para que no acepte .txt
+arreglar en >>find some/exact "nombre"... que sea la palabra completa
+editar la RE para que no acepte .txt
