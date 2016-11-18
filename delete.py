@@ -23,9 +23,8 @@ def op_delete(order, path):
                 new_route = regex.match(order).group('route') + '/'
 
         if regex.match(order).group('all_activo'):
-            if regex.match(order).group('is_file'):
+            if regex.match(order).group('is_file'): #Trabaja unicamente cuando es invocado "is"
                 name = regex.match(order).group('is_file')
-                print name
                 if in_route:
                     filelist = [f for f in os.listdir(new_route) if os.path.isfile(name+".lpy")]
                 else:
@@ -37,7 +36,7 @@ def op_delete(order, path):
                         os.remove(f)
                     trash.append(f)
 
-            elif regex.match(order).group('contains_file'):
+            elif regex.match(order).group('contains_file'): #Trabaja unicamente cuando es invocado "contains_file"
                 name = regex.match(order).group('contains_file')
                 if in_route:
                     filelist = [f for f in os.listdir(new_route) if name in f and f.endswith('.lpy')]
@@ -71,8 +70,7 @@ def op_delete(order, path):
                                 trash.append(f)
                         else:
                             if os.path.isfile(f + '.lpy'):
-                                print "enterrrr"
-                                os.remove(f+ '.lpy')
+                                os.remove(f + '.lpy')
                                 trash.append(f)
             else:
                 if in_route:
@@ -87,18 +85,17 @@ def op_delete(order, path):
                     trash.append(f)
 
         elif regex.match(order).group('name_file'):
-            if in_route:
-                os.remove(new_route + regex.match(order).group('name_file') + '.lpy')
-                trash.append(regex.match(order).group('name_file'))
-            else:
-                os.remove(regex.match(order).group('name_file') + '.lpy')
-                trash.append(regex.match(order).group('name_file'))
+            try:
+                if in_route:
+                    os.remove(new_route + regex.match(order).group('name_file') + '.lpy')
+                    trash.append(regex.match(order).group('name_file'))
+                else:
+                    os.remove(regex.match(order).group('name_file') + '.lpy')
+                    trash.append(regex.match(order).group('name_file'))
+            except OSError:
+                pass
+
+        auxiliar.bd_edit(trash, path, "clear")
     else:
         print "Error: Incorrect command"
-
-    auxiliar.bd_edit(trash, path,"clear")
-
     return
-
-#falta verificar si existe el archivo, cuando se desea borrar uno y
-#arrogar el mensaje de error en caso que no exista
