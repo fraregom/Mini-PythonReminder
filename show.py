@@ -54,7 +54,7 @@ def show(order,path_origin):
                         archivo.close()
 
             elif contains:
-                filelist = [f for f in os.listdir(route) if contains in f and f.endswith('.lpy')]
+                filelist = [f for f in os.listdir(route) if contains in f.strip(".lpy").split() and f.endswith('.lpy')]
                 for f in filelist:
                     print "-----Title:" + f + "-----"
                     archivo = open(route +"/"+ f )
