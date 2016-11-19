@@ -4,7 +4,7 @@ import re
 
 
 def op_dir(order,path):
-    regex = re.compile(r' *dir +(?:here|/(?P<route>.+)/?)')
+    regex = re.compile(r' *dir +(?:here|/(?P<route>.+)/?) *')
     if regex.match(order):
         try:
             if regex.match(order).group('route'):

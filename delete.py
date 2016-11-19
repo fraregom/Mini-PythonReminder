@@ -26,9 +26,9 @@ def op_delete(order, path):
             if regex.match(order).group('is_file'): #Trabaja unicamente cuando es invocado "is"
                 name = regex.match(order).group('is_file')
                 if in_route:
-                    filelist = [f for f in os.listdir(new_route) if os.path.isfile(name+".lpy")]
+                    filelist = [f for f in os.listdir(new_route) if f == name+".lpy"]
                 else:
-                    filelist = [f for f in os.listdir(".") if os.path.isfile(name+".lpy")]
+                    filelist = [f for f in os.listdir(".") if f== name+".lpy"]
                 for f in filelist:
                     if in_route:
                         os.remove(new_route + f)
@@ -39,9 +39,9 @@ def op_delete(order, path):
             elif regex.match(order).group('contains_file'): #Trabaja unicamente cuando es invocado "contains_file"
                 name = regex.match(order).group('contains_file')
                 if in_route:
-                    filelist = [f for f in os.listdir(new_route) if name in f and f.endswith('.lpy')]
+                    filelist = [f for f in os.listdir(new_route) if name in f.strip('.lpy').split() and f.endswith('.lpy')]
                 else:
-                    filelist = [f for f in os.listdir(".") if name in f and f.endswith('.lpy')]
+                    filelist = [f for f in os.listdir(".") if name in f.strip('.lpy').split() and f.endswith('.lpy')]
                 for f in filelist:
                     if in_route:
                         os.remove(new_route + f)

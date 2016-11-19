@@ -21,7 +21,7 @@ def show(order,path_origin):
                        r'(?P<all>all(?: +where(?:(?: +name(?: +is +"(?P<is>.*?)"|'
                        r' +contains +"(?P<contains>.*?)"))|(?: +tag +is +"(?P<tag>.+?)")))?)'
                        r'(?: +sorted +by +(?P<sort>(?:names|tags|modified|creation)))?)'
-                       r'(:? +in +/(?P<route>(.*))/?)?$')
+                       r'(:? +in +/(?P<route>(.*))/?)? *$')
     match = regex.match(order)
     if match:
         name = match.group("name_file")
@@ -39,8 +39,15 @@ def show(order,path_origin):
                 route = os.getcwd()+"/"+route
         else:
             route = os.getcwd()
+        #print "la ruta es :"+ route
+        metadata = open(path_origin + '/.metadata')
         if name:
+            #print "el nombre es: "+name
             print "-----Title:" + name + "-----"
+            for line in metadata:
+                aux = line.strip().split("|")
+                if name+"|"+route in line:
+                    print "Creation: "+aux[2]+" --- Modification: "+aux[3]
             archivo = open(route +"/"+ name + ".lpy")
             print auxiliar.multiple_replace(auxiliar.styles,archivo.read(),"show")
             archivo.close()
@@ -62,7 +69,6 @@ def show(order,path_origin):
                     print auxiliar.multiple_replace(auxiliar.styles, archivo.read(),"show")
                     archivo.close()
             elif tag:
-                metadata = open(path_origin + '/.metadata')
                 # if new_route:
                 for line in metadata:
                     aux = line.strip().split("|")
