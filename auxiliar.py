@@ -2,6 +2,7 @@
 import re
 import os
 import time
+import collections
 
 
 styles = {"<rojo>":"\033[31m",
@@ -18,6 +19,7 @@ styles = {"<rojo>":"\033[31m",
           "</color>":"\033[39m"
         }
 
+
 def multiple_replace(dictionary, text,flag):
     regex = re.compile("(%s)" % "|".join(map(re.escape, dictionary.keys())))
     if flag == "show":
@@ -26,6 +28,7 @@ def multiple_replace(dictionary, text,flag):
         if regex.search(text):
             return regex.sub(lambda mo: dictionary[mo.string[mo.start():mo.end()]], text)
         return
+
 
 def bd_edit(trash, path,type):
     metadata_old = open(path + '/.metadata')
@@ -57,4 +60,42 @@ def bd_edit(trash, path,type):
     os.renames(path + '/.metadata_tmp', path + '/.metadata')
     return
 
-#def print_machine(name,route,in_route)
+
+def print_info(path,name,route):
+    metadata = open(path)
+    print ">>Title:        " + name
+    for line in metadata:
+        aux = line.strip().split("|")
+        if name + "|" + route in line:
+            print ">>Creation:     " + aux[2] + "\n>>Modification: " + aux[3]
+    archivo = open(route + "/" + name + ".lpy")
+    print multiple_replace(styles, archivo.read(), "show")
+    print "\033[0;39m"
+    archivo.close()
+
+def sorted_by(ls,metadata_path,sort):
+    if sort:
+        metadata = open(metadata_path)
+        dic = {}
+        for linea in metadata:
+            ls_split= linea.strip().split("|")
+            for i in ls:
+                if i[0]+"|"+i[1] in linea:
+                    if sort == "names":
+                        order = ls_split[0]
+                    elif sort == "tags":
+                        order = ls_split[4]
+                        print order
+                    elif sort == "modified":
+                        order = ls_split[3]
+                    elif sort == "creation":
+                        order = ls_split[2]
+                    dic[order] = i
+
+        temp = collections.OrderedDict(sorted(dic.items()))
+        ls=[]
+        for _,value in temp.iteritems():
+            ls.append(value)
+    for element in ls:
+        print_info(metadata_path,element[0],element[1])
+
