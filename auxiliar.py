@@ -4,23 +4,22 @@ import os
 import time
 import collections
 
+styles = {"<rojo>": "\033[31m",
+          "<amarillo>": "\033[33m",
+          "<azul>": "\033[34m",
+          "<verde>": "\033[32m",
+          "<margenta>": "\033[35m",
+          "<subrayado>": "\033[4m",
+          "<negrita>": "\033[1m",
+          "<cursiva>": "\033[3m",
+          "</subrayado>": "\033[24m",
+          "</negrita>": "\033[21m",
+          "</cursiva>": "\033[23m",
+          "</color>": "\033[39m"
+          }
 
-styles = {"<rojo>":"\033[31m",
-          "<amarillo>":"\033[33m",
-          "<azul>":"\033[34m",
-          "<verde>":"\033[32m",
-          "<margenta>":"\033[35m",
-          "<subrayado>":"\033[4m",
-          "<negrita>":"\033[1m",
-          "<cursiva>":"\033[3m",
-          "</subrayado>":"\033[24m",
-          "</negrita>":"\033[21m",
-          "</cursiva>":"\033[23m",
-          "</color>":"\033[39m"
-        }
 
-
-def multiple_replace(dictionary, text,flag):
+def multiple_replace(dictionary, text, flag):
     regex = re.compile("(%s)" % "|".join(map(re.escape, dictionary.keys())))
     if flag == "show":
         return regex.sub(lambda mo: dictionary[mo.string[mo.start():mo.end()]], text)
@@ -30,7 +29,7 @@ def multiple_replace(dictionary, text,flag):
         return
 
 
-def bd_edit(trash, path,type):
+def bd_edit(trash, path, type):
     metadata_old = open(path + '/.metadata')
     metadata_new = open(path + '/.metadata_tmp', 'w')
     trash_new = []
@@ -46,13 +45,13 @@ def bd_edit(trash, path,type):
 
     for line in metadata_old:
         info = line.strip().split('|')
-        if not info[0] in trash_new:
+        if not info[1] + "/" + info[0] in trash_new:
             metadata_new.write(line)
         elif type == "clear":
             print "Successfully deleted: " + info[0] + '.lpy'
         elif type == "edit":
             date = time.strftime("%d/%m/%Y-%H:%M:%S")
-            metadata_new.write("|".join([info[0], info[1], info[2], date, info[4]])+"\n")
+            metadata_new.write("|".join([info[0], info[1], info[2], date, info[4]]) + "\n")
 
     metadata_new.close()
     metadata_old.close()
@@ -61,7 +60,7 @@ def bd_edit(trash, path,type):
     return
 
 
-def print_info(path,name,route):
+def print_info(path, name, route):
     metadata = open(path)
     print ">>Title:        " + name
     for line in metadata:
@@ -73,14 +72,15 @@ def print_info(path,name,route):
     print "\033[0;39m"
     archivo.close()
 
-def sorted_by(ls,metadata_path,sort):
+
+def sorted_by(ls, metadata_path, sort):
     if sort:
         metadata = open(metadata_path)
         dic = {}
         for linea in metadata:
-            ls_split= linea.strip().split("|")
+            ls_split = linea.strip().split("|")
             for i in ls:
-                if i[0]+"|"+i[1] in linea:
+                if i[0] + "|" + i[1] in linea:
                     if sort == "names":
                         order = ls_split[0]
                     elif sort == "tags":
@@ -93,9 +93,8 @@ def sorted_by(ls,metadata_path,sort):
                     dic[order] = i
 
         temp = collections.OrderedDict(sorted(dic.items()))
-        ls=[]
-        for _,value in temp.iteritems():
+        ls = []
+        for _, value in temp.iteritems():
             ls.append(value)
     for element in ls:
-        print_info(metadata_path,element[0],element[1])
-
+        print_info(metadata_path, element[0], element[1])

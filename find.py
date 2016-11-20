@@ -4,7 +4,7 @@ import re
 import auxiliar
 
 
-def aux_print(name_file,text_temp):
+def aux_print(name_file, text_temp):
     print ">>Found in " + name_file + ":\n"
     if auxiliar.multiple_replace(auxiliar.styles, text_temp, "find"):
         print auxiliar.multiple_replace(auxiliar.styles, text_temp, "find")
@@ -56,7 +56,7 @@ def op_find(order):
             for line in tmp:
                 find = re.search(r'"(.+)"', order).group(1)
                 find = " " + find + " "
-                line = " " + re.sub(r'\W'," ",line)
+                line = " " + re.sub(r'\W', " ", line)
                 if re.search(find, line):
                     text_temp += re.sub(find, '\033[46m' + find + '\033[49m', line)
                     ready = True

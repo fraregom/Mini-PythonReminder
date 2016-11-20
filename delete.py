@@ -12,7 +12,7 @@ def op_delete(order, path):
 
     trash = []
     default_route = os.getcwd() + '/'
-    if regex.match(order):#Se verifica si se produjo un match, de lo contrario retorna comando incorrecto.
+    if regex.match(order):  # Se verifica si se produjo un match, de lo contrario retorna comando incorrecto.
         route = regex.match(order).group('route')
         name = regex.match(order).group('name_file')
         is_active = regex.match(order).group('is_file')
@@ -28,35 +28,35 @@ def op_delete(order, path):
                 default_route = default_route + route + '/'
 
         if regex.match(order).group('all_activo'):
-            if is_active: #Trabaja unicamente cuando es invocado "is"
-                filelist = [f for f in os.listdir(default_route) if f == is_active+".lpy"]
+            if is_active:  # Trabaja unicamente cuando es invocado "is"
+                filelist = [f for f in os.listdir(default_route) if f == is_active + ".lpy"]
                 for f in filelist:
                     os.remove(default_route + f)
                     trash.append(default_route + f)
 
-            elif contains_active: #Trabaja unicamente cuando es invocado "contains_file"
+            elif contains_active:  # Trabaja unicamente cuando es invocado "contains_file"
                 filelist = [f for f in os.listdir(default_route)
                             if contains_active in f.strip('.lpy').split() and f.endswith('.lpy')]
                 for f in filelist:
                     os.remove(default_route + f)
                     trash.append(default_route + f)
 
-            elif tag_active: #Eliminara todos los archivos que contengan un tag en especial del directorio actual
+            elif tag_active:  # Eliminara todos los archivos que contengan un tag en especial del directorio actual
                 metadata = open(path + '/.metadata')
                 for line in metadata:
                     aux = line.strip().split("|")
-                    if tag_active in re.findall(r'"(\w+)"',aux[4]):
-                        if default_route == aux[1]+'/':
+                    if tag_active in re.findall(r'"(\w+)"', aux[4]):
+                        if default_route == aux[1] + '/':
                             os.remove(default_route + aux[0] + '.lpy')
                             trash.append(default_route + aux[0])
                 metadata.close()
-            else: #esto borra todos los archivos que terminan con .lpy
+            else:  # esto borra todos los archivos que terminan con .lpy
                 filelist = [f for f in os.listdir(default_route) if f.endswith(".lpy")]
                 for f in filelist:
                     os.remove(default_route + f)
                     trash.append(default_route + f)
 
-        elif name: #Es el encargado de borrar unicamente un archivo
+        elif name:  # Es el encargado de borrar unicamente un archivo
             try:
                 os.remove(default_route + name + '.lpy')
                 trash.append(default_route + name)

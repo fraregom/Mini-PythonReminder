@@ -24,11 +24,11 @@ while True:
     if re.match(" *create", command):
         create.create(command, PATH)
     elif re.match(" *dir", command):
-        dir.op_dir(command,PATH)
+        dir.op_dir(command, PATH)
     elif re.match(" *show", command):
-        show.show(command,PATH)
+        show.show(command, PATH)
     elif re.match(" *edit", command):
-        edit.op_edit(command,PATH)
+        edit.op_edit(command, PATH)
     elif re.match(" *delete", command):
         delete.op_delete(command, PATH)
     elif re.match(" *find", command):

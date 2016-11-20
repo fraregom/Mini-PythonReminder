@@ -6,7 +6,7 @@ import time
 
 
 def create(order, path_origin):
-    pattern = re.compile(r'^ *create *(?:(?:(?P<edit>".+?") *edit *)|(?P<files>(?:".+?" *)+))'
+    pattern = re.compile(r'^ *create *(?:(?:"(?P<edit>[^/"]+?)" *edit *)|(?P<files>(?:".+?" *)+))'
                          r'(?:with +tags +(?P<tags>".*" *))?(?:in +/(?P<path>(?:.+)+)/?)?$')
     match = pattern.match(order)
     if match:
