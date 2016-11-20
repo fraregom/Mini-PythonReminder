@@ -44,6 +44,7 @@ def create(order, path_origin):
         metadata.close()
         print "Successfully create: " + ls
         if files == "edit": #Para editar llamamos abrimos el archivo con NANO
-            subprocess.call(['nano', path + "/" + match.group(files).strip('"') + '.lpy'])
+            subprocess.call(['nano', path + "/" +
+                             match.group(files).strip('"') + '.lpy'])
     else:
         print "Error: Incorrect Command"
