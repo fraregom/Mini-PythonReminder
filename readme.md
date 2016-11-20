@@ -1,13 +1,13 @@
 ## Tarea 4 - Lenguajes de programación - Python
 
   * **Integrantes:** Diego Zamora G.( dzamora 201473076-4) - Francisco Reyes G. (freyes 201473117-5)
-    **Aclaraciones:** Utilizamos una pequeña base de datos llamada metadata, en ella se encuentra la informacion importante de cada nota, para ser menos invasivos en el computador nuestras notas poseen el formato .lpy
-    **¿Como aplicar estilos en un archivo?:**
+  * **Aclaraciones:** Utilizamos una pequeña base de datos llamada metadata, en ella se encuentra la informacion importante de cada nota, para ser menos invasivos en el computador nuestras notas poseen el formato .lpy
+  * **¿Como aplicar estilos en un archivo?:**
         Para ello utilizamos un lenguaje similar a html, a continuación les nombrare los estilos existentes.
-        **1.- Colores:** El programa admite los colores, rojo, amarillo, azul, magenta y verde. para aplicar uno realice lo siguiente:
+      * **1.- Colores:** El programa admite los colores, rojo, amarillo, azul, magenta y verde. para aplicar uno realice lo siguiente:
                          primero llamelo de esta manera, < rojo >, escriba su texto y cierre cada bloque de color con </ color >, para mayor
-                          información revise el archivo auxiliar.py, donde estaran escritos dichos colores.
-        **2.- Especiales:** Para utilizar el subrayado, debe realizarlo de igual forma similiar a los colores, debe llamarlo usando
+                         información revise el archivo auxiliar.py, donde estaran escritos dichos colores.
+      * **2.- Especiales:**  Para utilizar el subrayado, debe realizarlo de igual forma similiar a los colores, debe llamarlo usando
                             < subrayado > texto </ subrayado>, lo anterior de igual manera puede utilizar las negritas (< negrita >) y cursiva
                             (< cursiva >). 
         (nota: Markdown no permite escribir correctamente html, no existe espacio entre las barras y el color o especial)
