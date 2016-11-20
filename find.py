@@ -4,6 +4,7 @@ import re
 import auxiliar
 
 
+# permite el mostrar por pantalla un elemento encontrado
 def aux_print(name_file, text_temp):
     print ">>Found in " + name_file + ":\n"
     if auxiliar.multiple_replace(auxiliar.styles, text_temp, "find"):
@@ -11,12 +12,13 @@ def aux_print(name_file, text_temp):
     else:
         print text_temp
 
-
+# la funcion se encarga de buscar segun lo espeficado
 def op_find(order):
     anything_find = False
     text_temp = ""
     ready = False
 
+    #
     if re.search("some", order):
         exclude = re.compile(r'\W+')
         wanted = re.findall(r'"([A-Za-z]+)"', order)
@@ -48,6 +50,7 @@ def op_find(order):
             else:
                 text_temp = ""
             tmp.close()
+        print "\033[0;39m"
 
     elif re.search("exact", order):
         filelist = [f for f in os.listdir(os.getcwd()) if f.endswith('.lpy')]
@@ -70,6 +73,7 @@ def op_find(order):
             else:
                 text_temp = ""
             tmp.close()
+        print "\033[0;39m"
     else:
         anything_find = True
         print "Error: Incorrect Command"

@@ -6,13 +6,17 @@ import auxiliar
 
 def op_delete(order, path):
     regex = re.compile(r'^ *delete +(:?"(?P<name_file>.*)"|'
-                       r'(?P<all_activo>all+(:? +where +(:?(:?name +is +"(?P<is_file>.+)"|'
+                       r'(?P<all_activo>all+(:? +where +'
+                       r'(:?(:?name +is +"(?P<is_file>.+)"|'
                        r'name +contains +"(?P<contains_file>.+)")|'
-                       r'tag +is +"(?P<tag_name>.+)"))?))(:? +in +/(?P<route>(.*))/*)? *$')
+                       r'tag +is +"(?P<tag_name>.+)"))?))'
+                       r'(:? +in +/(?P<route>(.*))/*)? *$')
 
     trash = []
     default_route = os.getcwd() + '/'
-    if regex.match(order):  # Se verifica si se produjo un match, de lo contrario retorna comando incorrecto.
+    if regex.match(order):
+        # Se verifica si se produjo un match, de
+        # lo contrario retorna comando incorrecto.
         route = regex.match(order).group('route')
         name = regex.match(order).group('name_file')
         is_active = regex.match(order).group('is_file')
@@ -29,19 +33,24 @@ def op_delete(order, path):
 
         if regex.match(order).group('all_activo'):
             if is_active:  # Trabaja unicamente cuando es invocado "is"
-                filelist = [f for f in os.listdir(default_route) if f == is_active + ".lpy"]
-                for f in filelist:
-                    os.remove(default_route + f)
-                    trash.append(default_route + f)
-
-            elif contains_active:  # Trabaja unicamente cuando es invocado "contains_file"
                 filelist = [f for f in os.listdir(default_route)
-                            if contains_active in f.strip('.lpy').split() and f.endswith('.lpy')]
+                            if f == is_active + ".lpy"]
                 for f in filelist:
                     os.remove(default_route + f)
                     trash.append(default_route + f)
 
-            elif tag_active:  # Eliminara todos los archivos que contengan un tag en especial del directorio actual
+            elif contains_active:
+                # Trabaja unicamente cuando es invocado "contains_file"
+                filelist = [f for f in os.listdir(default_route)
+                            if contains_active in
+                                f.strip('.lpy').split() and f.endswith('.lpy')]
+                for f in filelist:
+                    os.remove(default_route + f)
+                    trash.append(default_route + f)
+
+            elif tag_active:
+                # Eliminara todos los archivos que
+                # contengan un tag en especial del directorio actual
                 metadata = open(path + '/.metadata')
                 for line in metadata:
                     aux = line.strip().split("|")
@@ -51,7 +60,8 @@ def op_delete(order, path):
                             trash.append(default_route + aux[0])
                 metadata.close()
             else:  # esto borra todos los archivos que terminan con .lpy
-                filelist = [f for f in os.listdir(default_route) if f.endswith(".lpy")]
+                filelist = [f for f in os.listdir(default_route)
+                            if f.endswith(".lpy")]
                 for f in filelist:
                     os.remove(default_route + f)
                     trash.append(default_route + f)

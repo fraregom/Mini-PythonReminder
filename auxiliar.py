@@ -4,6 +4,7 @@ import os
 import time
 import collections
 
+# Se definen los estilos que pueden ser aplicados en un texto.
 styles = {"<rojo>": "\033[31m",
           "<amarillo>": "\033[33m",
           "<azul>": "\033[34m",
@@ -18,17 +19,20 @@ styles = {"<rojo>": "\033[31m",
           "</color>": "\033[39m"
           }
 
-
+# Permite un replazo multiple en una linea de string
 def multiple_replace(dictionary, text, flag):
     regex = re.compile("(%s)" % "|".join(map(re.escape, dictionary.keys())))
     if flag == "show":
-        return regex.sub(lambda mo: dictionary[mo.string[mo.start():mo.end()]], text)
+        return regex.sub(lambda mo: dictionary[mo.string
+            [mo.start():mo.end()]], text)
     if flag == "find":
         if regex.search(text):
-            return regex.sub(lambda mo: dictionary[mo.string[mo.start():mo.end()]], text)
+            return regex.sub(lambda mo: dictionary[mo.string
+                [mo.start():mo.end()]], text)
         return
 
-
+# limpia la base de datos de los elementos borrados
+# y modifica la hora de actualizacion de los archivos modificados
 def bd_edit(trash, path, type):
     metadata_old = open(path + '/.metadata')
     metadata_new = open(path + '/.metadata_tmp', 'w')
@@ -51,7 +55,8 @@ def bd_edit(trash, path, type):
             print "Successfully deleted: " + info[0] + '.lpy'
         elif type == "edit":
             date = time.strftime("%d/%m/%Y-%H:%M:%S")
-            metadata_new.write("|".join([info[0], info[1], info[2], date, info[4]]) + "\n")
+            metadata_new.write("|".join([info[0], info[1],
+                                         info[2], date, info[4]]) + "\n")
 
     metadata_new.close()
     metadata_old.close()
@@ -59,7 +64,7 @@ def bd_edit(trash, path, type):
     os.renames(path + '/.metadata_tmp', path + '/.metadata')
     return
 
-
+# permite imprimir una nota
 def print_info(path, name, route):
     metadata = open(path)
     print ">>Title:        " + name
@@ -72,7 +77,7 @@ def print_info(path, name, route):
     print "\033[0;39m"
     archivo.close()
 
-
+# ordena las notas segun lo espeficado
 def sorted_by(ls, metadata_path, sort):
     if sort:
         metadata = open(metadata_path)

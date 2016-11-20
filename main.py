@@ -19,7 +19,7 @@ PATH = os.getcwd()
 if not os.path.isfile(".metadata"):
     arc = open(".metadata", "w")
     arc.close()
-while True:
+while True:  # Usando un while true, seleccionamos un comando
     command = raw_input("Command: ")
     if re.match(" *create", command):
         create.create(command, PATH)
