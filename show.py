@@ -29,7 +29,6 @@ def show(order, path_origin):
                 route = os.getcwd()+"/"+route
         else:
             route = os.getcwd()
-        print route
         if name: # Imprimir contenido de UN solo archivo
             auxiliar.print_info(metadata_path, name, route)
         elif all: # Si no , escojemos la opciones

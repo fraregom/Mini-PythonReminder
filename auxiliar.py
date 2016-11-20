@@ -90,7 +90,6 @@ def sorted_by(ls, metadata_path, sort):
                         order = ls_split[0]
                     elif sort == "tags":
                         order = ls_split[4]
-                        print order
                     elif sort == "modified":
                         order = ls_split[3]
                     elif sort == "creation":
