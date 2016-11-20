@@ -47,10 +47,11 @@ def op_find(order):
                 aux_print(name_file, text_temp)
                 text_temp = ""
                 ready = False
+                print "\033[0;39m"
+
             else:
                 text_temp = ""
             tmp.close()
-        print "\033[0;39m"
 
     elif re.search("exact", order):
         filelist = [f for f in os.listdir(os.getcwd()) if f.endswith('.lpy')]
@@ -59,7 +60,7 @@ def op_find(order):
             for line in tmp:
                 find = re.search(r'"(.+)"', order).group(1)
                 find = " " + find + " "
-                line = " " + re.sub(r'\W', " ", line)
+                line = " " + line
                 if re.search(find, line):
                     text_temp += re.sub(find, '\033[46m' + find + '\033[49m', line)
                     ready = True
@@ -70,10 +71,11 @@ def op_find(order):
                 aux_print(name_file, text_temp)
                 text_temp = ""
                 ready = False
+                print "\033[0;39m"
             else:
                 text_temp = ""
             tmp.close()
-        print "\033[0;39m"
+
     else:
         anything_find = True
         print "Error: Incorrect Command"

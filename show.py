@@ -61,7 +61,6 @@ def show(order, path_origin):
             else: #show all ... (sin containg/is/tags )
                 filelist = [f for f in os.listdir(route) if f.endswith(".lpy")]
                 for f in filelist:
-                    print "f: "+ f
                     for_order.append((f.split(".lpy")[0], route))
                 auxiliar.sorted_by(for_order, metadata_path, sort)
     else:
