@@ -12,7 +12,7 @@ def show(order, path_origin):
                        r'(:? +in +/(?P<route>(.*))/?)? *$')
 
     match = regex.match(order)
-    if match:
+    if match: # Entra si la expreison regular coincide
         metadata_path = path_origin + '/.metadata'
         name = match.group("name_file")
         all = match.group("all")
@@ -21,7 +21,7 @@ def show(order, path_origin):
         tag = match.group("tag")
         sort = match.group("sort")
         route = match.group("route")
-        if route:
+        if route: # Se define la ruta absoluta
             route = str(route)
             if re.match(r'home/.+', route):
                 route = "/"+route
@@ -29,25 +29,27 @@ def show(order, path_origin):
                 route = os.getcwd()+"/"+route
         else:
             route = os.getcwd()
-        if name:
+        print route
+        if name: # Imprimir contenido de UN solo archivo
             auxiliar.print_info(metadata_path, name, route)
-        elif all:
+        elif all: # Si no , escojemos la opciones
             for_order = []
             if not sort:
                 sort = None
-            if iss:
+            if iss: # show all where name is ...
                 filelist = [f for f in os.listdir(route) if f.endswith(".lpy")]
                 for f in filelist:
                     if iss+".lpy" == f:
                         for_order.append((iss, route))
                 auxiliar.sorted_by(for_order, metadata_path, sort)
-            elif contains:
+            elif contains: #show all where name contains ...
                 filelist = [f for f in os.listdir(route)
-                            if contains in f.strip(".lpy").split() and f.endswith('.lpy')]
+                            if contains in f.strip(".lpy").split()
+                            and f.endswith('.lpy')]
                 for f in filelist:
                     for_order.append((f.split(".lpy")[0], route))
                 auxiliar.sorted_by(for_order, metadata_path, sort)
-            elif tag:
+            elif tag: #show all where tag is ...
                 metadata = open(metadata_path)
                 for line in metadata:
                     aux = line.strip().split("|")
@@ -56,9 +58,10 @@ def show(order, path_origin):
                         for_order.append((aux[0], route))
                 auxiliar.sorted_by(for_order, metadata_path, sort)
                 metadata.close()
-            else:
+            else: #show all ... (sin containg/is/tags )
                 filelist = [f for f in os.listdir(route) if f.endswith(".lpy")]
                 for f in filelist:
+                    print "f: "+ f
                     for_order.append((f.split(".lpy")[0], route))
                 auxiliar.sorted_by(for_order, metadata_path, sort)
     else:

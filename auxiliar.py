@@ -96,7 +96,7 @@ def sorted_by(ls, metadata_path, sort):
                     elif sort == "creation":
                         order = ls_split[2]
                     dic[order] = i
-
+        metadata.close()
         temp = collections.OrderedDict(sorted(dic.items()))
         ls = []
         for _, value in temp.iteritems():

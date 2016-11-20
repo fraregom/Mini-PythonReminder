@@ -6,15 +6,17 @@ import time
 
 
 def create(order, path_origin):
-    pattern = re.compile(r'^ *create *(?:(?:"(?P<edit>[^/"]+?)" *edit *)|(?P<files>(?:".+?" *)+))'
-                         r'(?:with +tags +(?P<tags>".*" *))?(?:in +/(?P<path>(?:.+)+)/?)?$')
+    pattern = re.compile(r'^ *create *(?:(?:"(?P<edit>[^/"]+?)" *edit *)|'
+                         r'(?P<files>(?:".+?" *)+))'
+                         r'(?:with +tags +(?P<tags>".*" *))?'
+                         r'(?:in +/(?P<path>(?:.+)+)/?)?$')
     match = pattern.match(order)
-    if match:
+    if match: # Entra si la expresion regular coincide
         files = 'files'
         path = os.getcwd()
         if match.group('edit'):
             files = 'edit'
-        if match.group('path'):
+        if match.group('path'): # Se define la ruta absoluta
             if re.match(r'home/.+', match.group('path')):
                 path = '/' + match.group('path')
             else:
@@ -23,7 +25,6 @@ def create(order, path_origin):
                 print "Error: Incorrect PATH"
                 return
         ls = match.group(files)
-
         metadata = open(path_origin+"/.metadata", "a")
         for i in range(1, len(match.group(files).split('"')), 2):
             archivo = open(path+"/"+ls.split('"')[i]+".lpy", "w")
@@ -42,7 +43,7 @@ def create(order, path_origin):
             metadata.write(meta)
         metadata.close()
         print "Successfully create: " + ls
-        if files == "edit":
+        if files == "edit": #Para editar llamamos abrimos el archivo con NANO
             subprocess.call(['nano', path + "/" + match.group(files).strip('"') + '.lpy'])
     else:
         print "Error: Incorrect Command"
