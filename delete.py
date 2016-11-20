@@ -11,87 +11,55 @@ def op_delete(order, path):
                        r'tag +is +"(?P<tag_name>.+)"))?))(:? +in +/(?P<route>(.*))/*)? *$')
 
     trash = []
-    in_route = False
-    new_route = ''
-    if regex.match(order):
-        if regex.match(order).group('route'):
-            new_route = regex.match(order).group('route')
-            in_route = True
-            if re.match(r'home/.+', new_route):
-                new_route = '/' + new_route + '/'
+    default_route = os.getcwd() + '/'
+    if regex.match(order):#Se verifica si se produjo un match, de lo contrario retorna comando incorrecto.
+        route = regex.match(order).group('route')
+        name = regex.match(order).group('name_file')
+        is_active = regex.match(order).group('is_file')
+        contains_active = regex.match(order).group('contains_file')
+        tag_active = regex.match(order).group('tag_name')
+        if route:
+            if not os.path.exists(path):
+                print "Error: This PATH does not exists"
+                return
+            if re.match(r'home/.+', route):
+                default_route = '/' + route + '/'
             else:
-                new_route = regex.match(order).group('route') + '/'
+                default_route = default_route + route + '/'
 
         if regex.match(order).group('all_activo'):
-            if regex.match(order).group('is_file'): #Trabaja unicamente cuando es invocado "is"
-                name = regex.match(order).group('is_file')
-                if in_route:
-                    filelist = [f for f in os.listdir(new_route) if f == name+".lpy"]
-                else:
-                    filelist = [f for f in os.listdir(".") if f== name+".lpy"]
+            if is_active: #Trabaja unicamente cuando es invocado "is"
+                filelist = [f for f in os.listdir(default_route) if f == is_active+".lpy"]
                 for f in filelist:
-                    if in_route:
-                        os.remove(new_route + f)
-                    else:
-                        os.remove(f)
-                    trash.append(f)
+                    os.remove(default_route + f)
+                    trash.append(default_route + f)
 
-            elif regex.match(order).group('contains_file'): #Trabaja unicamente cuando es invocado "contains_file"
-                name = regex.match(order).group('contains_file')
-                if in_route:
-                    filelist = [f for f in os.listdir(new_route) if name in f.strip('.lpy').split() and f.endswith('.lpy')]
-                else:
-                    filelist = [f for f in os.listdir(".") if name in f.strip('.lpy').split() and f.endswith('.lpy')]
+            elif contains_active: #Trabaja unicamente cuando es invocado "contains_file"
+                filelist = [f for f in os.listdir(default_route)
+                            if contains_active in f.strip('.lpy').split() and f.endswith('.lpy')]
                 for f in filelist:
-                    if in_route:
-                        os.remove(new_route + f)
-                    else:
-                        os.remove(f)
-                    trash.append(f)
+                    os.remove(default_route + f)
+                    trash.append(default_route + f)
 
-            elif regex.match(order).group('tag_name'):
-                route_exists = False
-                for_delete = []
+            elif tag_active: #Eliminara todos los archivos que contengan un tag en especial del directorio actual
                 metadata = open(path + '/.metadata')
-                tag = regex.match(order).group('tag_name')
-
-                if new_route:
-                    route_exists = True
-
                 for line in metadata:
-                    if tag in re.findall(r'"(.+?)"', line):
-                        for_delete.append(line.strip().split('|')[0])
-
-                if for_delete:
-                    for f in for_delete:
-                        if route_exists:
-                            if os.path.isfile(new_route + f + '.lpy'):
-                                os.remove(new_route + f + '.lpy')
-                                trash.append(f)
-                        else:
-                            if os.path.isfile(f + '.lpy'):
-                                os.remove(f + '.lpy')
-                                trash.append(f)
-            else:
-                if in_route:
-                    filelist = [f for f in os.listdir(new_route) if f.endswith(".lpy")]
-                else:
-                    filelist = [f for f in os.listdir(".") if f.endswith(".lpy")]
+                    aux = line.strip().split("|")
+                    if tag_active in re.findall(r'"(\w+)"',aux[4]):
+                        if default_route == aux[1]+'/':
+                            os.remove(default_route + aux[0] + '.lpy')
+                            trash.append(default_route + aux[0])
+                metadata.close()
+            else: #esto borra todos los archivos que terminan con .lpy
+                filelist = [f for f in os.listdir(default_route) if f.endswith(".lpy")]
                 for f in filelist:
-                    if in_route:
-                        os.remove(new_route + f)
-                    else:
-                        os.remove(f)
-                    trash.append(f)
+                    os.remove(default_route + f)
+                    trash.append(default_route + f)
 
-        elif regex.match(order).group('name_file'):
+        elif name: #Es el encargado de borrar unicamente un archivo
             try:
-                if in_route:
-                    os.remove(new_route + regex.match(order).group('name_file') + '.lpy')
-                    trash.append(regex.match(order).group('name_file'))
-                else:
-                    os.remove(regex.match(order).group('name_file') + '.lpy')
-                    trash.append(regex.match(order).group('name_file'))
+                os.remove(default_route + name + '.lpy')
+                trash.append(default_route + name)
             except OSError:
                 pass
 

@@ -36,4 +36,4 @@ while True:
     elif command == "exit":
         break
     else:
-        print "Comando invalido\n"
+        print "Error: Incorrect Command\n"
