@@ -1,6 +1,5 @@
-## Tarea 4 - Lenguajes de programación - Python
+## Mini-PythonTerminal
 
-  * **Integrantes:** Diego Zamora G.( dzamora 201473076-4) - Francisco Reyes G. (freyes 201473117-5)
   * **Aclaraciones:** Utilizamos una pequeña base de datos llamada metadata, en ella se encuentra la informacion importante de cada nota, para ser menos invasivos en el computador nuestras notas poseen el formato .lpy
   * **¿Como aplicar estilos en un archivo?:**
         Para ello utilizamos un lenguaje similar a html, a continuación les nombrare los estilos existentes.
