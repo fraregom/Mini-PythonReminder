@@ -1,4 +1,4 @@
-## Mini-PythonTerminal
+## Mini-Python Reminder via Terminal
 
   * **Aclaraciones:** Utilizamos una pequeña base de datos llamada metadata, en ella se encuentra la informacion importante de cada nota, para ser menos invasivos en el computador nuestras notas poseen el formato .lpy
   * **¿Como aplicar estilos en un archivo?:**
